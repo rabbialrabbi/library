@@ -11,6 +11,7 @@ use App\Models\BookSelf;
 use App\Models\BookTitle;
 use App\Models\Language;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -132,12 +133,13 @@ class BookController extends Controller
         $newBook = false;
         foreach ($request->book as $book){
             $bookData['title_id'] = $bookTitle->id;
+            $bookData['book_view_id'] = $book['book_view_id'];
             $bookData['title'] = $book['title'];
             $bookData['language_id'] = $request->language_id;
-            $bookData['self_id'] = $request->self_id;
-            $bookData['price'] = $book['price'];
+            $bookData['self_id'] = $book['self_id'];
+            $bookData['part'] = $book['part'];
+            $bookData['price'] = 0;
             $bookData['author_id'] = $request->author_id;
-            $bookData['purchase_at'] = $request->purchase_at;
 
             $newBook = $this->addSingleBook($bookData);
         }
@@ -156,8 +158,7 @@ class BookController extends Controller
     {
         $author = $data['author_id'];
         unset($data['author_id']);
-        $lastBookId = Book::latest()->first()->id ?? 0;
-        $data['book_no'] = 'BK-'.str_pad($lastBookId+1, 5, '0', STR_PAD_LEFT);
+
         $book = Book::create($data);
 
         return $book->author()->sync($author);

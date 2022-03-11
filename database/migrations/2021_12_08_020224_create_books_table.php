@@ -21,7 +21,7 @@ class CreateBooksTable extends Migration
             $table->unsignedBigInteger('language_id');
             $table->unsignedBigInteger('self_id');
             $table->double('price');
-            $table->date('purchase_at');
+            $table->date('purchase_at')->nullable();
             $table->timestamps();
         });
     }

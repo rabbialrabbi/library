@@ -50,7 +50,7 @@
                                             <td>{{$loop->index + 1}}</td>
                                             <td>{{$bookSelf->title}}</td>
                                             <td>{{$bookSelf->location}}</td>
-                                            <td>{{$bookSelf->capacity}}</td>
+                                            <td>{{$bookSelf->part}}</td>
                                             <td>
                                                 <i class="action-icon fa fa-edit text-success" onclick="editModal({{$bookSelf->id}})"></i>
                                                 {{--                                                <button class="btn btn-success" data-toggle="modal" data-target="#editJamaat" >Edit</button>--}}
@@ -95,25 +95,34 @@
                             @csrf
                             @method('patch')
                             <div class="item form-group">
-                                <label class="col-form-label col-md-4 col-sm-4 label-align text-left" for="name">Book Self Title <span class="required">*</span>
+                                <label class="col-form-label col-md-4 col-sm-4 label-align text-left" for="title">Book Self Title <span class="required">*</span>
                                 </label>
                                 <div class="col-md-8 col-sm-8 ">
                                     <input type="text" id="title" required="required" class="form-control" name="title">
                                 </div>
                             </div>
                             <div class="item form-group">
-                                <label class="col-form-label col-md-4 col-sm-4 label-align text-left" for="name">Book Self Location
+                                <label class="col-form-label col-md-4 col-sm-4 label-align text-left" for="location">Book Self Location
                                 </label>
                                 <div class="col-md-8 col-sm-8 ">
                                     <textarea type="text" id="location" class="form-control" name="location"></textarea>
                                 </div>
                             </div>
                             <div class="item form-group">
-                                <label class="col-form-label col-md-4 col-sm-4 label-align text-left" for="name">Capacity
+                                <label class="col-form-label col-md-4 col-sm-4 label-align text-left" for="part">Part
                                 </label>
                                 <div class="col-md-8 col-sm-8 ">
-                                    <input type="number" id="capacity" class="form-control" name="capacity">
+                                    <input type="number" id="part" class="form-control" name="part">
                                 </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-4 col-sm-4 label-align text-left" for="part">
+                                </label>
+                                <div class="col-md-8 col-sm-8 ">
+                                    <div class="row" id="partDetails">
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="ln_solid"></div>
                             <div class="item">
@@ -143,7 +152,14 @@
                     {"orderable": false, "targets": [4]}
                     ]
             })
+            $('#part').keyup(function () {
+                updateSelfDetails()
+            })
+            $('#part').change(function () {
+                updateSelfDetails()
+            })
         })
+
         function editModal(id) {
             let bookSelf = bookSelves.find(function (bookSelf) {
                 return bookSelf.id == id
@@ -152,8 +168,39 @@
             $('#editBookSelfForm').attr('action', baseUrl + '/book-self/' + bookSelf.id)
             $('#title').val(bookSelf.title)
             $('#location').val(bookSelf.location)
-            $('#capacity').val(bookSelf.capacity)
+            $('#part').val(bookSelf.part)
+
+            let html = getPartDetailsHtml(bookSelf.part_details)
+            $('#partDetails').html(html)
             $('#editBookSelf').modal('show')
+            console.log(bookSelf)
+        }
+
+        function getPartDetailsHtml(part_details) {
+            let html = ``
+            let partDetails = part_details.length
+
+            let selfPart = parseInt(partDetails > 0 ? partDetails : 1)
+            for (let i = 1; i <= selfPart; i++) {
+                html += `
+                <div class="col-sm-3 mb-3">
+                    <input type="text" id="part" class="form-control" name="part_details[]" value="${part_details[i-1]}" required>
+                </div>
+                `
+            }
+            html += `</div>`
+
+            return html
+        }
+        function updateSelfDetails() {
+            let letter = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+
+
+            let selfPart = parseInt($('#part').val() > 0 ? $('#part').val() : 1)
+            let bal = letter.slice(0, selfPart);
+            let html = getPartDetailsHtml(bal)
+
+            $('#partDetails').html(html)
         }
     </script>
 @endpush

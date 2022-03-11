@@ -54,14 +54,26 @@
                             </div>
                         </div>
                         <div class="item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="capacity">Capacity
+                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="capacity">Part
                             </label>
                             <div class="col-md-6 col-sm-6 ">
-                                <input type="number" id="capacity" class="form-control @error('capacity') is-invalid @enderror" name="capacity">
+                                <input type="number" id="part" class="form-control @error('capacity') is-invalid @enderror" name="part" value="5" required>
                                 @error('capacity') <span
                                     class="text-danger float-right">{{$errors->first('capacity')}}</span>
                                 @enderror
                             </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="capacity">
+                            </label>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="row" id="partName">
+
+                                </div>
+
+                            </div>
+
+
                         </div>
                         <div class="ln_solid"></div>
                         <div class="item form-group">
@@ -77,3 +89,36 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        $(document).ready(function () {
+            updateSelfDetails()
+            $('#part').keyup(function () {
+                updateSelfDetails()
+            })
+            $('#part').change(function () {
+                updateSelfDetails()
+            })
+        })
+        function updateSelfDetails() {
+            let letterSetA = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+
+
+            let html = ``
+
+            let selfPart = parseInt($('#part').val() > 0 ? $('#part').val() : 1)
+            for (let i = 1; i <= selfPart; i++) {
+                html += `
+                <div class="col-2 mb-3">
+                                        <input type="text" id="capacity" class="form-control" name="part_details[]" value="${letterSetA[i-1]?letterSetA[i-1]:''}" required>
+
+                </div>
+                `
+            }
+            html += `</div>`
+
+            $('#partName').html(html)
+        }
+    </script>
+@endpush

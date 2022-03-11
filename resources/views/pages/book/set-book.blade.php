@@ -41,7 +41,7 @@
                                     </div>
                                     <div class="col-md-2 col-sm-2">
                                         <div class="form-group row">
-                                            <input type="text" id="suffix" required class="form-control has-feedback-right" value="Part">
+                                            <input type="text" id="suffix" required class="form-control has-feedback-right" value="Volume">
                                         </div>
                                     </div>
                                     @error('title') <span
@@ -84,49 +84,33 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group row has-feedback">
-                                    <label class="col-form-label col-md-2 col-sm-2 ">Price <span class="required">*</span></label>
-                                    <div class="col-md-10 col-sm-10 ">
-                                        <input type="number" id="price"  name="price" class="form-control has-feedback-right @error('price') is-invalid @enderror" placeholder="Please Enter Total Price" value="{{old('price')}}">
-                                        <span class="fa fa-money form-control-feedback right" aria-hidden="true"></span>
-                                        @error('price') <span
-                                            class="text-danger float-right">{{$errors->first('price')}}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 author-list">
-                                <div class="form-group row">
-                                    <label class="control-label col-md-2 col-sm-2 " for="author_id">Author <span class="required">*</span> <i class="fa fa-plus-square text-success" style="cursor: pointer" id="addAuthor"></i></label>
-                                    <div class="col-md-10 col-sm-10">
-                                        <select class="form-control  @error('author_id') is-invalid @enderror" name="author_id[]" id="author_id">
-                                            <option value="">Choose Author</option>
-                                            @foreach($authors as $author)
-                                                <option value="{{$author->id}}"
-                                                        @If(old('author_id') == $author->id) selected @endif>{{$author->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('author_id') <span
-                                            class="text-danger float-right">{{$errors->first('author_id')}}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
+{{--                            <div class="col-sm-6">--}}
+{{--                                <div class="form-group row has-feedback">--}}
+{{--                                    <label class="col-form-label col-md-2 col-sm-2 ">Price <span class="required">*</span></label>--}}
+{{--                                    <div class="col-md-10 col-sm-10 ">--}}
+{{--                                        <input type="number" id="price"  name="price" class="form-control has-feedback-right @error('price') is-invalid @enderror" placeholder="Please Enter Total Price" value="{{old('price')}}">--}}
+{{--                                        <span class="fa fa-money form-control-feedback right" aria-hidden="true"></span>--}}
+{{--                                        @error('price') <span--}}
+{{--                                            class="text-danger float-right">{{$errors->first('price')}}</span>--}}
+{{--                                        @enderror--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+
+{{--                            <div class="col-sm-6">--}}
+{{--                                <div class="form-group row">--}}
+{{--                                    <label class="col-form-label col-md-2 col-sm-2 ">Purchase Date <span class="required">*</span></label>--}}
+{{--                                    <div class="col-md-10 col-sm-10 ">--}}
+{{--                                        <input type="date" id="purchase_at"  name="purchase_at" class="form-control @error('purchase_at') is-invalid @enderror" placeholder="Please Enter Price" value="{{old('purchase_at')}}">--}}
+{{--                                        @error('purchase_at') <span--}}
+{{--                                            class="text-danger float-right">{{$errors->first('purchase_at')}}</span>--}}
+{{--                                        @enderror--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-2 col-sm-2 ">Purchase Date <span class="required">*</span></label>
-                                    <div class="col-md-10 col-sm-10 ">
-                                        <input type="date" id="purchase_at"  name="purchase_at" class="form-control @error('purchase_at') is-invalid @enderror" placeholder="Please Enter Price" value="{{old('purchase_at')}}">
-                                        @error('purchase_at') <span
-                                            class="text-danger float-right">{{$errors->first('purchase_at')}}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-2 col-sm-2 ">Part <span class="required">*</span></label>
+                                    <label class="col-form-label col-md-2 col-sm-2 ">Volume <span class="required">*</span></label>
                                     <div class="col-md-10 col-sm-10 ">
                                         <input type="number" id="part"  name="part" class="form-control @error('part') is-invalid @enderror" placeholder="Please Enter Number of Part" value="{{old('part')??1}}" min="1">
                                         @error('part') <span
@@ -144,6 +128,23 @@
                                                placeholder="Please Enter Card No">
                                         @error('image') <span
                                             class="text-danger float-right">{{$errors->first('image')}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 author-list">
+                                <div class="form-group row">
+                                    <label class="control-label col-md-2 col-sm-2 " for="author_id">Author <span class="required">*</span> <i class="fa fa-plus-square text-success" style="cursor: pointer" id="addAuthor"></i></label>
+                                    <div class="col-md-10 col-sm-10">
+                                        <select class="form-control  @error('author_id') is-invalid @enderror" name="author_id[]" id="author_id">
+                                            <option value="">Choose Author</option>
+                                            @foreach($authors as $author)
+                                                <option value="{{$author->id}}"
+                                                        @If(old('author_id') == $author->id) selected @endif>{{$author->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('author_id') <span
+                                            class="text-danger float-right">{{$errors->first('author_id')}}</span>
                                         @enderror
                                     </div>
                                 </div>
@@ -213,11 +214,23 @@
             $('#suffix').keyup(function () {
                 updateBookDetails()
             })
+            $('#self_id').change(function () {
+                updateBookDetails()
+            })
 
             updateBookDetails()
         })
 
         function updateBookDetails() {
+
+            let selfId = $('#self_id').val()
+            let bookSelfList = @json($bookSelves);
+
+            let selectedBookSelf = bookSelfList.find(function (q) {
+                return q.id == selfId
+            })
+            console.log(bookSelfList[0].title)
+
             let html = `<div class="x_title mt-5">
                             <h2>Book Details </h2>
                             <div class="clearfix"></div>
@@ -228,36 +241,97 @@
             let title = $('#title').val()
             let suffix = $('#suffix').val()
             for(let i = 1 ; i <= bookPart ; i++){
-                html += `
-                        <div class="col-sm-6">
+                html += `<div class="col-sm-3">
+                <div class="form-group row has-feedback">
+                <label class="col-form-label col-md-4 col-sm-4" for="book_${i}_book_view_id">Book No <span class="required">*</span></label>
+                <div class="col-md-8 col-sm-4 ">
+                <input type="text" id="book_${i}_book_view_id" required name="book[${i}][book_view_id]" class="form-control @error('book.${i}.book_view_id') is-invalid @enderror" placeholder="Please Enter Book No" value="{{old('book.${i}.book_view_id')}}">
+
+                        @error('book.${i}.book_view_id') <span
+                        class="text-danger float-right">{{$errors->first('book.${i}.book_view_id')}}</span>
+                        @enderror
+                </div>
+                </div>
+                </div>
+                        <div class="col-sm-3">
                         <div class="form-group row">
-                        <label class="control-label col-md-2 col-sm-2 " for="book_0_title">Title ${i} <span class="required">*</span></label>
+                        <label class="control-label col-md-2 col-sm-2 " for="book_${i}_title">Title ${i} <span class="required">*</span></label>
                         <div class="col-md-10 col-sm-10">
-                        <input type="text" id="book_${i}_title"  name="book[${i}][title]" required class="form-control @error('book.${i}.title') is-invalid @enderror" placeholder="Please Enter Price" value="${title + ' ' +suffix + ' ' + i}">
+                        <input type="text" id="book_${i}_title"  name="book[${i}][title]" required class="form-control @error('book.${i}.title') is-invalid @enderror" placeholder="Please Enter Title" value="${title + ' ' +suffix + ' ' + i}">
                         @error('book.${i}.title') <span
                         class="text-danger float-right">{{$errors->first('book.${i}.title')}}</span>
                         @enderror
                 </div>
                 </div>
                 </div>
-                <div class="col-sm-6">
-                <div class="form-group row has-feedback">
-                <label class="col-form-label col-md-2 col-sm-2" for="book_${i}_price">Price <span class="required">*</span></label>
-                <div class="col-md-10 col-sm-10 ">
-                <input type="number" id="book_${i}_price" required name="book[${i}][price]" class="form-control has-feedback-right @error('book.${i}.price') is-invalid @enderror" placeholder="Please Enter Price" value="{{old('book.${i}.price')}}">
-                        <span class="fa fa-money form-control-feedback right" aria-hidden="true"></span>
-                        @error('book.${i}.price') <span
-                        class="text-danger float-right">{{$errors->first('book.${i}.price')}}</span>
+                        <div class="col-sm-2">
+                        <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 " for="book_${i}_part">Part <span class="required">*</span></label>
+                        <div class="col-md-9 col-sm-9">
+                           <input type="text" id="book_${i}_part"  name="book[${i}][part]" required class="form-control @error('book.${i}.part') is-invalid @enderror" placeholder="Please Enter Part">
+                        @error('book.${i}.part') <span class="text-danger float-right">{{$errors->first('book.${i}.part')}}</span>@enderror
+                </div>
+                </div>
+                </div>
+                <div class="col-sm-2">
+                        <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 " for="book_${i}_self_id">Self <span class="required">*</span></label>
+                        <div class="col-md-9 col-sm-9">
+                        <select class="form-control  @error('book.${i}.part') is-invalid @enderror" name="book[${i}][part]" id="book_${i}_part">
+                        <option value="">Choose Self</option>`
+                    for(let j = 0; j < bookSelfList.length; j++){
+                        if(bookSelfList[j].id == selfId){
+                            html+=`<option value="${bookSelfList[j].id}" selected>${bookSelfList[j].title}</option>`
+                        }else{
+                            html+=`<option value="">${bookSelfList[j].title}</option>`
+                        }
+                    }
+
+
+                       html+=` </select>
+                        @error('book.${i}.self_id') <span
+                        class="text-danger float-right">{{$errors->first('book.${i}.self_id')}}</span>
                         @enderror
                 </div>
                 </div>
-                </div>`
+                </div>
+                <div class="col-sm-2">
+                        <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 " for="book_${i}_taak">Taak <span class="required">*</span></label>
+                        <div class="col-md-9 col-sm-9">
+                        <select class="form-control  @error('book.${i}.taak') is-invalid @enderror" name="book[${i}][taak]" id="book_${i}_taak">
+                            <option value="">Choose Taak</option>
+                            ${optionHtml(selectedBookSelf)}
+                        </select>
+                        @error('book.${i}.taak') <span class="text-danger float-right">{{$errors->first('book.${i}.taak')}}</span>@enderror
+                </div>
+                </div>
+                </div>
+
+                `
             }
 
 
             html += `</div>`
 
             $('#bookDetails').html(html)
+        }
+        function optionHtml(obj) {
+            let html = ''
+            if(obj){
+                let counter = obj.part_details.length
+                for (let i = 0; i <= counter-1; i++) {
+                    if(i == 0){
+                        html += `<option value="${obj.part_details[i]}" selected>${obj.part_details[i]}</option>`
+
+                    }else{
+                        html += `<option value="${obj.part_details[i]}">${obj.part_details[i]}</option>`
+
+                    }
+                }
+            }
+
+            return html
         }
     </script>
 @endpush

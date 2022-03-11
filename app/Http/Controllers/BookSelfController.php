@@ -37,7 +37,7 @@ class BookSelfController extends Controller
      */
     public function store(StoreBookSelfRequest $request)
     {
-        $data = $request->only('title','location','capacity');
+        $data = $request->only('title','location','part','part_details');
 
         BookSelf::create($data);
         return  redirect()->back()->with('success','Book Self Create Successful');
@@ -75,7 +75,7 @@ class BookSelfController extends Controller
      */
     public function update(UpdateBookSelfRequest $request, BookSelf $bookSelf)
     {
-        $data = $request->only('title','location','capacity');
+        $data = $request->only('title','location','part','part_details');
 
         $bookSelf->update($data);
         return  redirect()->back()->with('success','Book Self Update Successful');

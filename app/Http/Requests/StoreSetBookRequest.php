@@ -29,7 +29,7 @@ class StoreSetBookRequest extends FormRequest
             'self_id'=>'required|exists:book_selves,id',
             'author_id'=>'required|array|exists:authors,id',
             'part'=>'required|numeric',
-            'price'=>'required|numeric',
+//            'price'=>'required|numeric',
             'book'=>'required|array',
         ];
     }
