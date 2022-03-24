@@ -19,7 +19,7 @@ class CreateBookTitlesTable extends Migration
             $table->unsignedBigInteger('language_id');
             $table->unsignedBigInteger('self_id');
             $table->json('author_id');
-            $table->integer('part');
+            $table->integer('volume');
             $table->text('image')->nullable();
             $table->timestamps();
         });

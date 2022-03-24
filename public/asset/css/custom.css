@@ -2058,7 +2058,7 @@ ul.msg_list li {
   display: -ms-flexbox;
   display: flex;
   margin: 6px 6px 0;
-  width: 96% !important; }
+  width: 100% !important; }
 
 ul.msg_list li:last-child {
   margin-bottom: 6px;

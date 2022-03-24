@@ -17,7 +17,8 @@ class CreateBookSelvesTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('location')->nullable();
-            $table->integer('capacity')->nullable();
+            $table->integer('part')->nullable();
+            $table->json('part_details')->nullable();
             $table->timestamps();
         });
     }

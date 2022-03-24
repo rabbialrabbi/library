@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+@push('style')
+    <style>
+        #assignBookTitle{
+            color: green;
+        }
+    </style>
+@endpush
 @section('content')
     <div class="page-title">
         <div class="title_left">
@@ -28,34 +35,76 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
+                    <div class="row justify-content-center">
+                        <div class="col-3 text-center">
+                            <img src="{{asset('/asset/images/BOOKS.jpg')}}" alt="Book" id="assignBookImage" height="260"/>
+                        </div>
+                        <div class="col-9">
+                            <div class="row">
+                                <div class="col-6"><h2>{{$book->title}}</h2></div>
+                                <div class="col-4"><h2>Book No : {{$book->book_no}}</h2></div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3">
+                                    Written By :
+                                    @foreach($book->author as $author)
+                                        <span class="d-block">{{$author->name}}</span>
+                                    @endforeach
+                                </div>
+                                <div class="col-3">Language : {{$book->language->name}}</div>
+                                <div class="col-3">Location :
+                                    <span class="d-block">{{$book->bookSelf->title}}, Taak - {{$book->taak}}</span>
+                                    <span class="d-block">{{$book->bookSelf->location}}</span>
+                                </div>
+                                <div class="col-3">Add at : {{$book->created_at ? $book->created_at->format('d-m-Y') : ''}}</div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-3">
+                                    @if($book->borrow_status)
+                                        <span class="d-block">Status : <span class="badge badge-danger">Reserved</span></span>
+                                        <span class="d-block">Borrowed By {{$book->current_borrower->first_name}} {{$book->current_borrower->last_name}}</span>
+                                    @else
+                                        <span class="d-block">Status : <span class="badge badge-success">Available</span></span>
+                                    @endif
+
+                                </div>
+                                <div class="col-3">Part : {{$book->part}}</div>
+                                <div class="col-3">Jamaat : {{$book->jamaat->name}}</div>
+                                <div class="col-3"><a href="{{route('lost.store',['book'=>$book->id])}}" class="btn btn-danger btn-lg text-white" style="width: 80%">Lost</a></div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="card-box table-responsive">
 
-                                <table id="bookTable" class="table table-striped table-bordered" style="width:100%">
+                            <div class="card-box table-responsive">
+                                <table class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                     <tr>
                                         <th>S/N</th>
+                                        <th>Borrow At</th>
+                                        <th>Return At</th>
                                         <th>Name</th>
-                                        <th>Book No</th>
-                                        <th>Price</th>
-                                        <th>Purchase Date</th>
-                                        <th>Action</th>
+                                        <th>Jamaat</th>
+                                        <th>Member Type</th>
                                     </tr>
                                     </thead>
 
 
                                     <tbody>
-                                    @foreach($bookTitle->book as $book)
+                                    @foreach($book->member as $member)
                                         <tr>
                                             <td>{{$loop->index + 1}}</td>
-                                            <td>{{$book->title}}</td>
-                                            <td>{{$book->book_no}}</td>
-                                            <td>{{$book->price}}</td>
-                                            <td>{{$book->purchase_at}}</td>
-                                            <td>
-{{--                                                <i class="action-icon fa fa-edit text-success" onclick="editModal({{$book->id}})"></i>--}}
-                                            </td>
+                                            <td>{{$member->pivot->borrow_at}}</td>
+                                            <td>{{$member->pivot->return_at}}</td>
+                                            <td>{{$member->first_name .' '. $member->last_name}}</td>
+                                            <td>{{$member->jamaat->name}}</td>
+                                            @if($member->member_type == 1)
+                                                <td>Student</td>
+                                            @else
+                                                <td>Teacher</td>
+                                            @endif
                                         </tr>
                                     @endforeach
 

@@ -9,7 +9,10 @@ use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\BookSelf;
 use App\Models\BookTitle;
+use App\Models\Jamaat;
 use App\Models\Language;
+use App\Models\Member;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,8 +25,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = BookTitle::with('bookSelf')->get();
-        return view('pages.book.index',compact('books'));
+        $books = Book::with('bookSelf')->where('book_status',1)->get();
+        $members = Member::where('status',1)->get();
+        return view('pages.book.index',compact('books','members'));
     }
 
     /**
@@ -68,10 +72,12 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show(BookTitle $bookTitle)
+    public function show(Book $book)
     {
-        $bookTitle->load('book');
-        return view('pages.book.book-details',compact('bookTitle'));
+        $book->load(['author','bookSelf','jamaat','language','returnByMember','member'=>function($q){
+            return $q->withPivot('borrow_at','return_at')->orderBy('borrow_at','DESC')->latest()->limit(10);
+        }]);
+        return view('pages.book.book-details',compact('book'));
     }
 
     /**
@@ -115,12 +121,15 @@ class BookController extends Controller
         $languages = Language::get();
         $bookSelves = BookSelf::get();
         $authors = Author::get();
-        return view('pages.book.set-book',compact('titles','languages','bookSelves','authors'));
+        $lastBookId = Book::latest()->first()->book_no ;
+        $jamaatList = Jamaat::get();
+        return view('pages.book.set-book',compact('titles','languages','bookSelves','authors','lastBookId','jamaatList'));
     }
 
     public function storeSetBook(StoreSetBookRequest $request)
     {
-        $bookTitleData = $request->only('title','part','author_id','language_id','self_id');
+//        dd($request->all());
+        $bookTitleData = $request->only('title','author_id','language_id','self_id','volume');
 
         if ($request->has('image')) {
             $image = $request->file('image');
@@ -129,14 +138,18 @@ class BookController extends Controller
             $bookTitleData['image'] = asset('storage/images/' . $name) ;
         }
 
+//        dd($bookTitleData);
         $bookTitle = BookTitle::create($bookTitleData);
         $newBook = false;
         foreach ($request->book as $book){
-            $bookData['title_id'] = $bookTitle->id;
-            $bookData['book_view_id'] = $book['book_view_id'];
             $bookData['title'] = $book['title'];
-            $bookData['language_id'] = $request->language_id;
+            $bookData['book_no'] = $book['book_no'];
+            $bookData['language_id'] = $bookTitle->language_id;
+            $bookData['jamaat_id'] = $request->jamaat_id;
+            $bookData['title_id'] = $bookTitle->id;
+            $bookData['image'] = $bookTitle->image;
             $bookData['self_id'] = $book['self_id'];
+            $bookData['taak'] = $book['taak'];
             $bookData['part'] = $book['part'];
             $bookData['price'] = 0;
             $bookData['author_id'] = $request->author_id;
@@ -162,5 +175,41 @@ class BookController extends Controller
         $book = Book::create($data);
 
         return $book->author()->sync($author);
+    }
+
+    public function assignBorrowedBook(Request $request)
+    {
+        $book = Book::find($request->book_id);
+        $book->update(['borrow_status'=>1]);
+        $book->member()->attach($request->member_id,['borrow_at'=>now()]);
+        return redirect()->back()->with('success','Book Assigned successful');
+    }
+
+    public function returnedBorrowedBook(Request $request, Book $book)
+    {
+        $bookBorrowers = $book->returnByMember->pluck('id')->toArray();
+        $book->update(['borrow_status'=>0]);
+        $book->returnByMember()->syncWithPivotValues($bookBorrowers,['return_at'=>now()]);
+
+        return redirect()->back()->with('success','Book Return successful');
+    }
+
+    public function lostBookIndex()
+    {
+        $lostBooks = Book::where('book_status',0)->get();
+        return view('pages.book.lost-book-list',compact('lostBooks'));
+    }
+
+    public function lostBookStore(Book $book)
+    {
+        $book->update(['book_status'=>0,'lost_at'=>now()]);
+        return redirect()->route('book.index')->with('success','The Book Add to lost list successful');
+    }
+
+    public function lostBookRetrieve(Book $book)
+    {
+        $book->update(['book_status'=>1,'lost_at'=>null]);
+        return redirect()->route('book.index')->with('success','The Lost Book retrieve successful');
+
     }
 }

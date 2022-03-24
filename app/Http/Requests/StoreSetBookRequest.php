@@ -27,8 +27,9 @@ class StoreSetBookRequest extends FormRequest
             'title'=>'required',
             'language_id'=>'required|exists:languages,id',
             'self_id'=>'required|exists:book_selves,id',
+            'jamaat_id'=>'required|exists:jamaats,id',
             'author_id'=>'required|array|exists:authors,id',
-            'part'=>'required|numeric',
+            'volume'=>'required|numeric',
 //            'price'=>'required|numeric',
             'book'=>'required|array',
         ];

@@ -31,7 +31,7 @@
                         <ul class="nav child_menu">
                             <li><a href="{{route('book.index')}}">All Books</a></li>
                             <li><a href="{{route('set.book.show')}}">Add Set Book</a></li>
-                            <li><a href="{{route('book.create')}}">Add Single Book</a></li>
+                            <li><a href="{{route('lost.show')}}">Lost Book List</a></li>
                         </ul>
                     </li>
                     <li><a><i class="fa fa-graduation-cap"></i> Jamaat <span class="fa fa-chevron-down"></span></a>

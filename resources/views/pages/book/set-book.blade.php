@@ -84,6 +84,23 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="control-label col-md-2 col-sm-2 " for="jamaat_id">Jamaat <span class="required">*</span></label>
+                                    <div class="col-md-10 col-sm-10">
+                                        <select class="form-control  @error('jamaat_id') is-invalid @enderror" name="jamaat_id" id="jamaat_id">
+                                            <option value="">Choose Jamaat</option>
+                                            @foreach($jamaatList as $jamaat)
+                                                <option value="{{$jamaat->id}}"
+                                                        @If(old('jamaat_id') == $jamaat->id) selected @endif>{{$jamaat->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('jamaat_id') <span
+                                            class="text-danger float-right">{{$errors->first('jamaat_id')}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
 {{--                            <div class="col-sm-6">--}}
 {{--                                <div class="form-group row has-feedback">--}}
 {{--                                    <label class="col-form-label col-md-2 col-sm-2 ">Price <span class="required">*</span></label>--}}
@@ -112,9 +129,9 @@
                                 <div class="form-group row">
                                     <label class="col-form-label col-md-2 col-sm-2 ">Volume <span class="required">*</span></label>
                                     <div class="col-md-10 col-sm-10 ">
-                                        <input type="number" id="part"  name="part" class="form-control @error('part') is-invalid @enderror" placeholder="Please Enter Number of Part" value="{{old('part')??1}}" min="1">
-                                        @error('part') <span
-                                            class="text-danger float-right">{{$errors->first('part')}}</span>
+                                        <input type="number" id="part"  name="volume" class="form-control @error('volume') is-invalid @enderror" placeholder="Please Enter Number of Part" value="{{old('volume')??1}}" min="1">
+                                        @error('volume') <span
+                                            class="text-danger float-right">{{$errors->first('volume')}}</span>
                                         @enderror
                                     </div>
                                 </div>
@@ -136,7 +153,7 @@
                                 <div class="form-group row">
                                     <label class="control-label col-md-2 col-sm-2 " for="author_id">Author <span class="required">*</span> <i class="fa fa-plus-square text-success" style="cursor: pointer" id="addAuthor"></i></label>
                                     <div class="col-md-10 col-sm-10">
-                                        <select class="form-control  @error('author_id') is-invalid @enderror" name="author_id[]" id="author_id">
+                                        <select class="form-control  @error('author_id') is-invalid @enderror select2" name="author_id[]" id="author_id">
                                             <option value="">Choose Author</option>
                                             @foreach($authors as $author)
                                                 <option value="{{$author->id}}"
@@ -225,11 +242,11 @@
 
             let selfId = $('#self_id').val()
             let bookSelfList = @json($bookSelves);
+            let lastBookNo = @json($lastBookId);
 
             let selectedBookSelf = bookSelfList.find(function (q) {
                 return q.id == selfId
             })
-            console.log(bookSelfList[0].title)
 
             let html = `<div class="x_title mt-5">
                             <h2>Book Details </h2>
@@ -243,12 +260,12 @@
             for(let i = 1 ; i <= bookPart ; i++){
                 html += `<div class="col-sm-3">
                 <div class="form-group row has-feedback">
-                <label class="col-form-label col-md-4 col-sm-4" for="book_${i}_book_view_id">Book No <span class="required">*</span></label>
+                <label class="col-form-label col-md-4 col-sm-4" for="book_${i}_book_no">Book No <span class="required">*</span></label>
                 <div class="col-md-8 col-sm-4 ">
-                <input type="text" id="book_${i}_book_view_id" required name="book[${i}][book_view_id]" class="form-control @error('book.${i}.book_view_id') is-invalid @enderror" placeholder="Please Enter Book No" value="{{old('book.${i}.book_view_id')}}">
+                <input type="text" id="book_${i}_book_no" required name="book[${i}][book_no]" class="form-control @error('book.${i}.book_no') is-invalid @enderror" placeholder="Please Enter Book No" value="${lastBookNo+i}">
 
-                        @error('book.${i}.book_view_id') <span
-                        class="text-danger float-right">{{$errors->first('book.${i}.book_view_id')}}</span>
+                        @error('book.${i}.book_no') <span
+                        class="text-danger float-right">{{$errors->first('book.${i}.book_no')}}</span>
                         @enderror
                 </div>
                 </div>
@@ -277,7 +294,7 @@
                         <div class="form-group row">
                         <label class="control-label col-md-3 col-sm-3 " for="book_${i}_self_id">Self <span class="required">*</span></label>
                         <div class="col-md-9 col-sm-9">
-                        <select class="form-control  @error('book.${i}.part') is-invalid @enderror" name="book[${i}][part]" id="book_${i}_part">
+                        <select class="form-control  @error('book.${i}.self_id') is-invalid @enderror" name="book[${i}][self_id]" id="book_${i}self_id">
                         <option value="">Choose Self</option>`
                     for(let j = 0; j < bookSelfList.length; j++){
                         if(bookSelfList[j].id == selfId){

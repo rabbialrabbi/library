@@ -28,6 +28,7 @@
 <!-- DataTables -->
 <link rel="stylesheet" href="{{asset('asset/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('asset/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('asset/plugins/select2/css/select2.min.css')}}">
 
 <!-- Custom Theme Style -->
 <link href="{{asset('/asset/css/custom.css')}}" rel="stylesheet">

@@ -16,6 +16,7 @@
 <script src="{{asset('asset/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('asset/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('asset/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('asset/plugins/select2/js/select2.min.js')}}"></script>
 <!-- Custom Theme Scripts -->
 <script src="{{asset('/asset/js/custom.min.js')}}"></script>
 
@@ -66,6 +67,6 @@
         // / End side navbar active /
 
         //Initialize Select2 Elements
-        // $('.select2').select2();
+        $('.select2').select2();
     })
 </script>

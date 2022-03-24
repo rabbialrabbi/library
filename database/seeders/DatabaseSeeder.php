@@ -34,6 +34,9 @@ class DatabaseSeeder extends Seeder
         Jamaat::create(['Name'=>'Meshkat']);
         Author::create(['Name'=>'Ashraf Ali Thanwi']);
         Subject::create(['Name'=>'Bangla']);
-        BookSelf::create(['Title'=>'Self 1','location'=>'Beside Moshjid','capacity'=>200]);
+        BookSelf::create(['Title'=>'Self 1','location'=>'Beside Moshjid','part'=>5,'part_details'=>['A','B','C','D','E']]);
+        $this->call(BookSeeder::class);
+        $this->call(MemberSeeder::class);
+
     }
 }
