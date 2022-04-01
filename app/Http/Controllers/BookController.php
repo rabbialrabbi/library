@@ -27,7 +27,11 @@ class BookController extends Controller
     {
         $books = Book::with('bookSelf')->where('book_status',1)->get();
         $members = Member::where('status',1)->get();
-        return view('pages.book.index',compact('books','members'));
+        $languages = Language::get();
+        $bookSelves = BookSelf::get();
+        $authors = Author::get();
+        $jamaats = Jamaat::get();
+        return view('pages.book.index',compact('books','members','languages','bookSelves','authors','jamaats'));
     }
 
     /**

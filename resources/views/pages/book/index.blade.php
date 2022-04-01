@@ -86,7 +86,7 @@
     </div>
 
     <!-- Edit Book Modal -->
-    <div class="modal fade" id="editBook" tabindex="-1" role="dialog" aria-labelledby="editBookTitle" aria-hidden="true">
+    <div class="modal fade" id="editBook" role="dialog" aria-labelledby="editBookTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="x_panel">
@@ -109,70 +109,100 @@
                     </div>
                     <div class="x_content">
                         <br />
-                        <form data-parsley-validate class="form-horizontal form-label-left" method="post" id="editBookForm">
+                        <form data-parsley-validate class="form-horizontal form-label-left" method="post" id="editBookForm" enctype="multipart/form-data">
                             @csrf
                             @method('patch')
                             <div class="item form-group">
-                                <label class="col-form-label col-md-4 col-sm-4 label-align" for="name">Book Title <span class="required">*</span>
+                                <label class="col-form-label col-md-4 col-sm-4 label-align" for="title">Book Title <span class="required">*</span>
                                 </label>
                                 <div class="col-md-7 col-sm-7 ">
-                                    <input type="text" id="name" required="required" class="form-control" name="name">
+                                    <input type="text" id="title" required="required" class="form-control" name="title">
                                 </div>
                             </div>
                             <div class="item form-group">
-                                <label class="col-form-label col-md-4 col-sm-4 label-align" for="name">Book No <span class="required">*</span>
+                                <label class="col-form-label col-md-4 col-sm-4 label-align" for="book_no">Book No <span class="required">*</span>
                                 </label>
                                 <div class="col-md-7 col-sm-7 ">
-                                    <input type="text" id="name" required="required" class="form-control" name="name">
+                                    <input type="text" id="book_no" required="required" class="form-control" name="book_no">
                                 </div>
                             </div>
                             <div class="item form-group">
-                                <label class="col-form-label col-md-4 col-sm-4 label-align" for="name">Book Part <span class="required">*</span>
+                                <label class="col-form-label col-md-4 col-sm-4 label-align" for="part">Book Part <span class="required">*</span>
                                 </label>
                                 <div class="col-md-7 col-sm-7 ">
-                                    <input type="text" id="name" required="required" class="form-control" name="name">
+                                    <input type="text" id="part" required="required" class="form-control" name="part">
                                 </div>
                             </div>
                             <div class="item form-group">
-                                <label class="col-form-label col-md-4 col-sm-4 label-align" for="name">Book Language <span class="required">*</span>
+                                <label class="col-form-label col-md-4 col-sm-4 label-align" for="language_id">Book Language <span class="required">*</span>
                                 </label>
                                 <div class="col-md-7 col-sm-7 ">
-                                    <input type="text" id="name" required="required" class="form-control" name="name">
+                                    <select name="language_id" id="language_id" class="form-control" required>
+                                        <option value="">Select Language</option>
+                                        @foreach($languages as $language)
+                                            <option value="{{$language->id}}">{{$language->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="item form-group">
-                                <label class="col-form-label col-md-4 col-sm-4 label-align" for="name">Book Jamaat <span class="required">*</span>
+                                <label class="col-form-label col-md-4 col-sm-4 label-align" for="jamaat_id">Book Jamaat <span class="required">*</span>
                                 </label>
                                 <div class="col-md-7 col-sm-7 ">
-                                    <input type="text" id="name" required="required" class="form-control" name="name">
+                                    <select name="jamaat_id" id="jamaat_id" class="form-control" required>
+                                        <option value="">Select Jamaat</option>
+                                        @foreach($jamaats as $jamaat)
+                                            <option value="{{$jamaat->id}}">{{$jamaat->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align" for="name">Book Self <span class="required">*</span>
                                 </label>
                                 <div class="col-md-7 col-sm-7 ">
-                                    <input type="text" id="name" required="required" class="form-control" name="name">
+                                    <select name="jamaat_id" id="jamaat_id" class="form-control" required>
+                                        <option value="">Select Jamaat</option>
+                                        @foreach($bookSelves as $self)
+                                            <option value="{{$self->id}}">{{$self->title}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align" for="name">Book Taak <span class="required">*</span>
                                 </label>
                                 <div class="col-md-7 col-sm-7 ">
-                                    <input type="text" id="name" required="required" class="form-control" name="name">
+                                    <select name="taak" id="taak" class="form-control" required>
+                                        <option value="">Select Taak</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <label class="col-form-label col-md-4 col-sm-4 label-align" for="name">Book Image <span class="required">*</span>
                                 </label>
                                 <div class="col-md-7 col-sm-7 ">
-                                    <input type="text" id="name" required="required" class="form-control" name="name">
+                                    <input type="file" id="image" name="image"
+                                           class="form-control @error('image') is-invalid @enderror"
+                                           placeholder="Please Enter Card No">
                                 </div>
                             </div>
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-4 col-sm-4 label-align" for="name">Book Author <span class="required">*</span>
-                                </label>
+                            <div class="author-list">
+
+                            </div>
+                            <div class="item form-group author-list">
+                                <label class="col-form-label col-md-4 col-sm-4 label-align" for="author_id">Author <span class="required">*</span> <i class="fa fa-plus-square text-success" style="cursor: pointer" id="addAuthor"></i></label>
                                 <div class="col-md-7 col-sm-7 ">
-                                    <input type="text" id="name" required="required" class="form-control" name="name">
+                                    <select class="form-control  @error('author_id') is-invalid @enderror select2" name="author_id[]" id="author_id" style="width: 100%">
+                                        <option value="">Choose Author</option>
+                                        @foreach($authors as $author)
+                                            <option value="{{$author->id}}"
+                                                    @If(old('author_id') == $author->id) selected @endif>{{$author->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('author_id') <span
+                                        class="text-danger float-right">{{$errors->first('author_id')}}</span>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -276,6 +306,31 @@
             $('#bookTable').DataTable({
                 "responsive": true,
                 "autoWidth": false
+            })
+
+            $('#addAuthor').click(function () {
+                let authorField = `
+                            <div class="item form-group author-list">
+                                <label class="col-form-label col-md-4 col-sm-4 label-align" for="author_id">Author <span class="required">*</span> <i class="fa fa-minus-square text-danger" style="cursor: pointer" id="addAuthor"></i></label>
+                                <div class="col-md-7 col-sm-7 ">
+                                    <select class="form-control  @error('author_id') is-invalid @enderror select2" name="author_id[]" id="author_id">
+                                        <option value="">Choose Author</option>
+                                        @foreach($authors as $author)
+                <option value="{{$author->id}}"
+                                                    @If(old('author_id') == $author->id) selected @endif>{{$author->name}}</option>
+                                        @endforeach
+                </select>
+@error('author_id') <span
+                                        class="text-danger float-right">{{$errors->first('author_id')}}</span>
+                                    @enderror
+                </div>
+            </div>
+`
+                $('.author-list').last().after(authorField);
+
+                $('#editBook').on('click','.fa-minus-square',function () {
+                    $(this).closest('.author-list').remove()
+                })
             })
 
         })

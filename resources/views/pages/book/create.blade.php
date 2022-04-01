@@ -30,7 +30,7 @@
                 </div>
                 <div class="x_content">
                     <br />
-                    <form class="form-label-left input_mask" action="{{route('book.store')}}" method="post" id="bookAddForm">
+                    <form class="form-label-left input_mask" action="{{route('book.store')}}" method="post" id="bookAddForm" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-sm-6">
